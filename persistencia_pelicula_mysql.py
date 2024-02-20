@@ -47,17 +47,29 @@ class Persistencia_pelicula_mysql(IPersistencia_pelicula):
         return resultat
     
     def totes_pag(self, id=None) -> List[Pelicula]:
-        pass
-        #falta codi
+        return List[Pelicula(x) for x in self._conn.cursor().execute(f"SELECT * FROM PELICULA WHERE ID > {id} LIMIT 10")]
     
-    def desa(self,pelicula:Pelicula) -> Pelicula:
-        pass
-        #falta codi
+    def desa(self,pelicula:Pelicula):
+        cur = self._conn.cursor()
+        cur.execute(f"INSERT INTO PELICULA(TITULO, ANYO, PUNTUACION, VOTOS) VALUES ({pelicula.titol}, {pelicula.any}, {pelicula.puntuacio}, {pelicula.vots});")
+        self._conn.commit()
     
-    def llegeix(self, any: int) -> Pelicula:
-        pass
-        #falta codi
-    
-    def canvia(self,pelicula:Pelicula) -> Pelicula:
-        pass
-        #falta codi
+    def llegeix(self, any: int) -> list:
+        return [peli for peli in self._conn.cursor().execute(f"SELECT ANYO FROM PELICULA WHERE ANYO = {any}")]
+        
+    def canvia(self, params:dict, pelicula:Pelicula):
+        active_params = {"TITULO": False, "ANYO": False, "PUNTUACION": False, "VOTOS": False}
+        cur = self._conn.cursor()
+        peli_args = {}
+
+        if any(pgiven > 4 or pgiven <= -1 for pgiven in params.values()):
+            return 
+        
+        for pgiven in params:
+            for param in active_params:
+                active_params[param] = True
+                peli_args.update({active_params[param]:pelicula.__dict__[param]})
+        
+        for arg, value in peli_args.items():
+            cur.execute(f"UPDATE PELICULA SET {arg} = {value} WHERE id = {pelicula.id};")
+            self._conn.commit()

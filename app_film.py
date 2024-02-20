@@ -37,7 +37,6 @@ def mostra_lent(missatge, v=0.05):
         time.sleep(v)
     print()
 
-
 def landing_text():
     os.system('clear')
     print("Benvingut a la app de pel·lícules")
@@ -71,7 +70,6 @@ def mostra_menu_next10():
     print("0.- Surt de l'aplicació.")
     print("2.- Mostra les següents 10 pel·lícules")
 
-
 def procesa_opcio(context):
     return {
         "0": lambda ctx : mostra_lent("Fins la propera"),
@@ -80,13 +78,12 @@ def procesa_opcio(context):
 
 def database_read(id:int):
     logging.basicConfig(filename='pelicules.log', encoding='utf-8', level=logging.DEBUG)
-    la_meva_configuracio = #falta codi
-    persistencies = #falta codi
-    films = Llistapelis(
-        persistencia_pelicula=
-    )
-    films. #falta codi
-    return films
+    la_meva_configuracio = get_configuracio()
+    persistencies = get_persistencies()
+
+    films = Llistapelis(persistencia_pelicula=persistencies)
+
+    return films.pelicules
 
 def bucle_principal(context):
     opcio = None
