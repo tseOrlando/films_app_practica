@@ -2,7 +2,8 @@
 
 import json
 
-class Pelicula:
+class film_t:
+    
     def __init__(self, titol: str, any: int, puntuacio: float , vots: int, persistencia,id=None) -> None:
         self._titol = titol
         self._any = any
@@ -51,8 +52,8 @@ class Pelicula:
     def persistencia(self):
         return self._persistencia
 
-    def toJSON(self):
+    def to_json(self):
         return json.dumps({"id": self.id, "titol": self.titol, "any": self.any, "puntuacio": self.puntuacio, "vots": self.vots})
     
     def __repr__(self):
-        return self.toJSON()
+        return self.to_json()
